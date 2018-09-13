@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.softwareforgood.pridefestival.ui.events.DefaultEventsView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ProgressBar
+        android:id="@+id/events_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        />
+
+    <com.softwareforgood.pridefestival.ui.misc.LinearRecyclerView
+        android:id="@+id/events_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/view_event_list_item"
+        />
+
+    <com.softwareforgood.pridefestival.ui.GenericErrorView
+        android:id="@+id/events_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</com.softwareforgood.pridefestival.ui.events.DefaultEventsView>

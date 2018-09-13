@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.softwareforgood.pridefestival.ui.parade.ParadeItemView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <FrameLayout
+        android:id="@+id/parade_list_item_image_container"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@color/event_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/parade_list_item_image"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:src="@drawable/parade_event_cell_parade_icon"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/parade_list_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/parade_list_item_favorite_button"
+        app:layout_constraintStart_toEndOf="@+id/parade_list_item_image_container"
+        app:layout_constraintTop_toTopOf="@+id/parade_list_item_image_container"
+        tools:text="Drag Revolution" />
+
+    <ImageButton
+        android:id="@+id/parade_list_item_favorite_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/add_to_favorites"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_favorite_border" />
+
+    <TextView
+        android:id="@+id/parade_list_item_lineup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/parade_list_item_favorite_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/parade_list_item_title"
+        app:layout_constraintTop_toBottomOf="@+id/parade_list_item_title"
+        tools:text="Lineup Number: 2" />
+
+    <TextView
+        android:id="@+id/parade_list_item_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/parade_list_item_favorite_button"
+        app:layout_constraintStart_toStartOf="@+id/parade_list_item_lineup"
+        app:layout_constraintTop_toBottomOf="@+id/parade_list_item_lineup"
+        tools:text="Details" />
+
+</com.softwareforgood.pridefestival.ui.parade.ParadeItemView>

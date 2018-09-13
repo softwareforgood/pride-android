@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_schedule"
+        android:title="@string/schedule"
+        android:icon="@drawable/ic_schedule"
+        />
+
+    <item android:id="@+id/menu_parade"
+        android:title="@string/parade"
+        android:icon="@drawable/ic_parade"
+        />
+
+    <item android:id="@+id/menu_map"
+        android:title="@string/map"
+        android:icon="@drawable/ic_map"
+        />
+
+    <item android:id="@+id/menu_vendors"
+        android:title="@string/vendors"
+        android:icon="@drawable/ic_vendor"
+        />
+
+    <item android:id="@+id/menu_favorites"
+        android:title="@string/favorites"
+        android:icon="@drawable/ic_favorite"
+        />
+</menu>

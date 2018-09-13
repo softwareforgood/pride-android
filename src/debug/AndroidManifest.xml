@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.softwareforgood.pridefestival"
+    >
+
+    <application>
+        <meta-data
+            tools:replace="android:value"
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAnEHJk0S3l5W6EnDrX9-atZAaVFF_maU0"
+            />
+    </application>
+
+</manifest>

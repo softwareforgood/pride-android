@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#7f3f97</color>
+    <color name="status_bar">#713886</color>
+    <color name="content_background">#fffafafa</color>
+    <color name="text_color_primary">#dd000000</color>
+    <color name="text_color_secondary">#89000000</color>
+    <color name="bottom_bar_text">#ffffffff</color>
+    <color name="bottom_bar_icon">#ffffffff</color>
+
+    <color name="default_color">#d7d7d7</color>
+
+    <color name="favorited_color">#ec1c24</color>
+
+    <color name="event_blue">#006db6</color>
+    <color name="event_green">#008d41</color>
+    <color name="event_yellow"> #f0c900</color>
+
+    <color name="vendor_red">#ea2224</color>
+    <color name="vendor_orange">#f26522</color>
+    <color name="vendor_yellow">#f0c900</color>
+    <color name="vendor_green">#008e41</color>
+    <color name="vendor_blue">#21409a</color>
+    <color name="vendor_purple">#7f3f97</color>
+</resources>

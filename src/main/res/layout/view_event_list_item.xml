@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.softwareforgood.pridefestival.ui.events.EventItemView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/content_background"
+    >
+
+    <FrameLayout
+        android:id="@+id/event_list_item_image_container"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="#ff00ff">
+
+        <ImageView
+            android:id="@+id/event_list_item_image"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            tools:background="#ffff00"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/event_list_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:lines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/event_list_item_favorite_button"
+        app:layout_constraintStart_toEndOf="@+id/event_list_item_image_container"
+        app:layout_constraintTop_toTopOf="@+id/event_list_item_image_container"
+        tools:text="Drag Revolution" />
+
+    <ImageButton
+        android:id="@+id/event_list_item_favorite_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/add_to_favorites"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_favorite_border" />
+
+    <TextView
+        android:id="@+id/event_list_item_start_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        app:layout_constraintEnd_toStartOf="@+id/event_list_item_favorite_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/event_list_item_title"
+        app:layout_constraintTop_toBottomOf="@+id/event_list_item_title"
+        tools:text="Starts at 3:00pm" />
+
+    <TextView
+        android:id="@+id/event_list_item_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        app:layout_constraintBottom_toTopOf="@+id/event_list_website"
+        app:layout_constraintEnd_toStartOf="@+id/event_list_item_favorite_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/event_list_item_start_time"
+        app:layout_constraintTop_toBottomOf="@+id/event_list_item_start_time"
+        tools:text="Stonewall Stage" />
+
+    <TextView
+        android:id="@+id/event_list_website"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:text="@string/event_website_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/accent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/event_list_item_favorite_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/event_list_item_location"
+        app:layout_constraintTop_toBottomOf="@+id/event_list_item_location" />
+
+</com.softwareforgood.pridefestival.ui.events.EventItemView>
