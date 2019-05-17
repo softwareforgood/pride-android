@@ -1,33 +1,35 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    id("com.android.application") version "3.3.0-alpha10"
-    id("kotlin-android") version "1.2.70"
-    id("kotlin-kapt") version "1.2.70"
-    id("kotlin-android-extensions") version "1.2.70"
-    id("io.fabric") version "1.25.4"
-    id("com.google.gms.google-services") version "4.0.1"
-    id("com.gradle.build-scan") version "1.15.2"
-}
+    id("com.android.application") version "3.4.1"
 
-apply(from = "$rootDir/gradle/signing.gradle.kts")
+    val kotlinVersion = "1.3.31"
+    kotlin("android") version kotlinVersion
+    kotlin("kapt") version kotlinVersion
+    kotlin("android.extensions") version kotlinVersion
+
+    id("com.gradle.build-scan") version "2.3"
+
+    id("gradle-versions")
+    id("signing-config")
+}
 
 repositories {
     google()
+    mavenCentral()
     jcenter()
-    maven { url = uri("https://maven.fabric.io/public") }
     maven { url = uri("https://jitpack.io") }
 }
 
 buildScan {
-    setTermsOfServiceUrl("https://gradle.com/terms-of-service")
-    setTermsOfServiceAgree("yes")
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    termsOfServiceAgree = "yes"
     publishAlways()
 }
 
 android {
     compileSdkVersion(28)
-    buildToolsVersion("28.0.2")
+    buildToolsVersion("28.0.3")
 
     signingConfigs {
         getByName("debug") {
@@ -37,10 +39,10 @@ android {
             keyPassword = "android"
         }
         create("release") {
-            val keystoreLocation: String by project
-            val keystorePassword: String by project
-            val storeKeyAlias: String by project
-            val aliasKeyPassword: String by project
+            val keystoreLocation: String by extra
+            val keystorePassword: String by extra
+            val storeKeyAlias: String by extra
+            val aliasKeyPassword: String by extra
 
             storeFile = file(keystoreLocation)
             storePassword = keystorePassword
@@ -66,8 +68,6 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = false
             isShrinkResources = false
-            val alwaysUpdateBuildId by extra { false }
-            val enableCrashlytics by extra { false }
         }
         getByName("release") {
             applicationIdSuffix = ".release"
@@ -93,82 +93,86 @@ android {
         exclude("LICENSE.txt")
         exclude("META-INF/LICENSE.txt")
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 
-    implementation("androidx.appcompat:appcompat:1.0.0-rc02")
-    implementation("androidx.recyclerview:recyclerview:1.0.0-rc02")
-    implementation("androidx.emoji:emoji-bundled:1.0.0-rc02")
+    implementation("androidx.appcompat:appcompat:1.0.2")
+    implementation("androidx.recyclerview:recyclerview:1.0.0")
+    implementation("androidx.emoji:emoji-bundled:1.0.0")
 
-    implementation("androidx.browser:browser:1.0.0-rc02")
+    implementation("androidx.browser:browser:1.0.0")
 
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha2")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta1")
 
-    implementation("com.google.android.material:material:1.0.0-rc02")
+    implementation("com.google.android.material:material:1.0.0")
 
-    implementation("com.google.firebase:firebase-core:16.0.3")
-    implementation("com.google.firebase:firebase-perf:16.1.0")
-    implementation("com.google.firebase:firebase-config:16.0.0")
+    implementation("com.google.firebase:firebase-core:16.0.9")
+    implementation("com.google.firebase:firebase-perf:17.0.2")
+    implementation("com.google.firebase:firebase-config:17.0.0")
 
-    implementation("com.crashlytics.sdk.android:crashlytics:2.9.5")
-    implementation("androidx.core:core-ktx:1.0.0-rc02")
-    implementation("com.google.android.gms:play-services-maps:15.0.1")
+    implementation("androidx.core:core-ktx:1.0.2")
+    implementation("com.google.android.gms:play-services-maps:16.1.0")
 
     implementation("com.jakewharton:process-phoenix:2.0.0")
-    implementation("com.jakewharton.threetenabp:threetenabp:1.1.0")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.0")
     implementation("com.jakewharton.timber:timber:4.7.1")
 
-    implementation("com.squareup.moshi:moshi:1.6.0")
+    implementation("com.squareup.moshi:moshi:1.8.0")
 
-    implementation("com.google.dagger:dagger:2.16")
-    kapt("com.google.dagger:dagger-compiler:2.16")
+    implementation("com.google.dagger:dagger:2.23.1")
+    kapt("com.google.dagger:dagger-compiler:2.23.1")
 
-    implementation("io.reactivex.rxjava2:rxjava:2.2.0")
-    implementation("io.reactivex.rxjava2:rxandroid:2.0.2")
-    implementation("com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.8")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation("com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.2.0")
     implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")
 
-    implementation("com.parse:parse-android:1.15.8")
+    implementation("com.parse:parse-android:1.17.3")
 
-    implementation("com.github.bumptech.glide:glide:4.7.1")
-    kapt("com.github.bumptech.glide:compiler:4.7.1")
+    implementation("com.github.bumptech.glide:glide:4.9.0")
+    kapt("com.github.bumptech.glide:compiler:4.9.0")
 
     implementation("com.github.rogues-dev:hoard:0.2.0")
     implementation("com.andrewreitz.velcro:velcro-betterviewanimator:1.0.1")
     implementation("ca.barrenechea.header-decor:header-decor:0.2.8")
     implementation("xyz.danoz:recyclerviewfastscroller:0.1.3")
-    implementation("pub.devrel:easypermissions:1.1.3")
+    implementation("pub.devrel:easypermissions:3.0.0")
 
-    add("debugImplementation", "com.facebook.stetho:stetho:1.5.0")
+    "debugImplementation"("com.facebook.stetho:stetho:1.5.1")
 
-    add("androidTestImplementation", kotlin("test", KotlinCompilerVersion.VERSION))
-    add("androidTestImplementation", "androidx.test:runner:1.1.0-alpha4")
-    add("androidTestImplementation", "androidx.test.espresso:espresso-core:3.1.0-alpha4")
-    add("kaptAndroidTest", "com.google.dagger:dagger-compiler:2.16")
+    "androidTestImplementation"(kotlin("test", KotlinCompilerVersion.VERSION))
+    "androidTestImplementation"("androidx.test:runner:1.2.0")
+    "androidTestImplementation"("androidx.test.espresso:espresso-core:3.2.0")
+    "kaptAndroidTest"("com.google.dagger:dagger-compiler:2.23.1")
 
-    add("testImplementation", kotlin("test", KotlinCompilerVersion.VERSION))
-    add("testImplementation", "com.nhaarman:mockito-kotlin:1.5.0")
-    add("testImplementation", "org.amshove.kluent:kluent:1.14")
+    "testImplementation"(kotlin("test", KotlinCompilerVersion.VERSION))
+    "testImplementation"("com.nhaarman:mockito-kotlin:1.6.0")
+    "testImplementation"("org.amshove.kluent:kluent:1.49")
 
-    add("testImplementation", "org.threeten:threetenbp:1.3.6") { exclude(group = "com.jakewharton.threetenabp") }
+    "testImplementation"("org.threeten:threetenbp:1.4.0") { exclude(group = "com.jakewharton.threetenabp") }
 }
 
-kapt.useBuildCache = true
+kapt {
+    useBuildCache = true
+
+    arguments {
+        arg("dagger.gradle.incremental", "true")
+    }
+}
+
 
 // The default "assemble" task only applies to normal variants. Add test variants as well.
-android.testVariants.all {
-    tasks.getByName("assemble").dependsOn(assemble)
+tasks.named("assemble").configure {
+    dependsOn(android.testVariants.map { it.testedVariant.assembleProvider })
 }
 
-tasks.withType<Test> {
-    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
+tasks.named("lint").configure {
+    enabled = false
 }
-
-tasks.withType<JavaCompile> {
-    options.isFork = true
-}
-
-tasks["lint"].enabled = false
-
