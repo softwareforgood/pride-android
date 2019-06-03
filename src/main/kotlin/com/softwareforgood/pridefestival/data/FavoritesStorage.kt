@@ -69,7 +69,7 @@ class DefaultFavoritesStorage @Inject constructor(
             .onErrorReturn { emptySet() }
             .map { it.contains(item.objectId) }
             .subscribeOnIoScheduler()
-            .doOnError { Timber.e(it, "Error checking for %s", item) }!!
+            .doOnError { Timber.e(it, "Error checking for %s", item) }
 
     private fun <T : HasParseId> RxDepositor<Set<String>>.delete(item: T) = retrieve()
             .map { it - item.objectId }
@@ -92,5 +92,5 @@ class DefaultFavoritesStorage @Inject constructor(
             .run(input)
             .toList()
             .subscribeOnIoScheduler()
-            .doOnError { Timber.e(it, "Error retrieving data") }!!
+            .doOnError { Timber.e(it, "Error retrieving data") }
 }

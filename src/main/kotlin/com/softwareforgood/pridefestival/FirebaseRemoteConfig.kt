@@ -24,10 +24,10 @@ object FirebaseRemoteConfigConstants {
     @Reusable
     fun provideRemoteConfig(): FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
             .also { config ->
-                val firebaseRemoteConfigSettings = FirebaseRemoteConfigSettings.Builder()
-                        .setDeveloperModeEnabled(BuildConfig.DEBUG)
-                        .build()
-                config.setConfigSettings(firebaseRemoteConfigSettings)
+                val firebaseRemoteConfigSettings = FirebaseRemoteConfigSettings.Builder().apply {
+                    if (BuildConfig.DEBUG) setMinimumFetchIntervalInSeconds(10)
+                }.build()
+                config.setConfigSettingsAsync(firebaseRemoteConfigSettings)
 
                 // load defaults just in case
                 // or while fetch takes place to load the initial config
@@ -41,7 +41,7 @@ object FirebaseRemoteConfigConstants {
                 config.fetch()
                         .addOnSuccessListener {
                             Timber.d("loaded remote config")
-                            config.activateFetched()
+                            config.activate()
                         }.addOnFailureListener {
                             Timber.e(it, "Error loading remote config")
                         }
