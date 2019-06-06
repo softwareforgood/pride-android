@@ -1,6 +1,5 @@
 package com.softwareforgood.pridefestival.util
 
-import android.app.Activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
