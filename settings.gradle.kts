@@ -1,4 +1,4 @@
-rootProject.name = "Twin-Cities-Pride-2018"
+rootProject.name = "Twin-Cities-Pride"
 
 pluginManagement {
     repositories {
