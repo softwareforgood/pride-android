@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.android.application") version "3.4.1"
@@ -129,7 +130,7 @@ dependencies {
     implementation("com.google.dagger:dagger:2.23.1")
     kapt("com.google.dagger:dagger-compiler:2.23.1")
 
-    implementation("io.reactivex.rxjava2:rxjava:2.2.8")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.9")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation("com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.2.0")
     implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")
@@ -148,10 +149,12 @@ dependencies {
     "debugImplementation"("com.facebook.stetho:stetho:1.5.1")
 
     "androidTestImplementation"(kotlin("test", KotlinCompilerVersion.VERSION))
+    "androidTestImplementation"("androidx.test.ext:junit:1.1.1")
     "androidTestImplementation"("androidx.test:runner:1.2.0")
     "androidTestImplementation"("androidx.test.espresso:espresso-core:3.2.0")
     "kaptAndroidTest"("com.google.dagger:dagger-compiler:2.23.1")
 
+    "testImplementation"("junit:junit:4.12")
     "testImplementation"(kotlin("test", KotlinCompilerVersion.VERSION))
     "testImplementation"("com.nhaarman:mockito-kotlin:1.6.0")
     "testImplementation"("org.amshove.kluent:kluent:1.49")
@@ -168,11 +171,13 @@ kapt {
 }
 
 
+tasks.withType<KotlinCompile> {
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+    kotlinOptions.jvmTarget = "1.8"
+}
+
 // The default "assemble" task only applies to normal variants. Add test variants as well.
 tasks.named("assemble").configure {
     dependsOn(android.testVariants.map { it.testedVariant.assembleProvider })
-}
-
-tasks.named("lint").configure {
-    enabled = false
 }

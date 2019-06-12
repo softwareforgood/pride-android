@@ -38,7 +38,7 @@ class VendorItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
                 website?.toUri()?.launchCustomTab(context)
             }
 
-            @DrawableRes val vendorImage = when (vendorType) {
+            @DrawableRes val vendorImage: Int = when (vendorType) {
                 VendorType.FOOD -> R.drawable.vendor_cell_type_food_icon
                 VendorType.NON_FOOD -> R.drawable.vendor_cell_type_nonfood_icon
                 VendorType.UNKNOWN -> R.drawable.cell_type_miscellaneous_icon

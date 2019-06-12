@@ -1,6 +1,6 @@
 package com.softwareforgood.pridefestival.functional
 
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.softwareforgood.pridefestival.data.VendorLoader
 import org.junit.Before
 import org.junit.Test
