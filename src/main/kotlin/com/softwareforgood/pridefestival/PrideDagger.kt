@@ -2,15 +2,12 @@ package com.softwareforgood.pridefestival
 
 import android.app.Application
 import com.parse.Parse
-import com.softwareforgood.pridefestival.data.DataModule
 import com.softwareforgood.pridefestival.ui.ActivityComponent
 import javax.inject.Scope
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import android.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.Preference
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import dagger.BindsInstance
-import dagger.Component
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -21,20 +18,16 @@ import kotlin.annotation.AnnotationTarget.VALUE_PARAMETER
 
 @Scope annotation class ApplicationScope
 
-@ApplicationScope
-@Component(modules = [PrideAppModule::class, DataModule::class])
-interface PrideAppComponent {
+interface BasePrideAppComponent {
     val parseConfig: Parse.Configuration
     val firstRunCachingService: FirstRunCachingService
+    val initialize: AppInitializer
 
     fun activityComponentBuilder(): ActivityComponent.Builder
 
-    @Component.Builder
     interface Builder {
-        @BindsInstance
         fun application(application: Application): Builder
-
-        fun build(): PrideAppComponent
+        fun build(): BasePrideAppComponent
     }
 }
 

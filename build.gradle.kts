@@ -2,17 +2,17 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.android.application") version "3.4.1"
+    id("com.android.application")
 
-    val kotlinVersion = "1.3.31"
-    kotlin("android") version kotlinVersion
-    kotlin("kapt") version kotlinVersion
-    kotlin("android.extensions") version kotlinVersion
+    kotlin("android")
+    kotlin("kapt")
+    kotlin("android.extensions")
 
     id("com.gradle.build-scan") version "2.3"
 
     id("gradle-versions")
     id("signing-config")
+    id("sentry-io")
 }
 
 repositories {
@@ -99,18 +99,22 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    // ignore javax packages in sentry.io jar
+    lintOptions {
+        disable = setOf("InvalidPackage")
+    }
 }
 
 dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 
+    implementation("androidx.core:core-ktx:1.0.2")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.recyclerview:recyclerview:1.0.0")
     implementation("androidx.emoji:emoji-bundled:1.0.0")
-
     implementation("androidx.browser:browser:1.0.0")
-
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta1")
+    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
 
     implementation("com.google.android.material:material:1.0.0")
 
@@ -118,7 +122,6 @@ dependencies {
     implementation("com.google.firebase:firebase-perf:17.0.2")
     implementation("com.google.firebase:firebase-config:17.0.0")
 
-    implementation("androidx.core:core-ktx:1.0.2")
     implementation("com.google.android.gms:play-services-maps:16.1.0")
 
     implementation("com.jakewharton:process-phoenix:2.0.0")
@@ -146,20 +149,23 @@ dependencies {
     implementation("xyz.danoz:recyclerviewfastscroller:0.1.3")
     implementation("pub.devrel:easypermissions:3.0.0")
 
-    "debugImplementation"("com.facebook.stetho:stetho:1.5.1")
+    releaseImplementation("io.sentry:sentry-android:1.7.16")
+    releaseImplementation("org.slf4j:slf4j-nop:1.7.25")
 
-    "androidTestImplementation"(kotlin("test", KotlinCompilerVersion.VERSION))
-    "androidTestImplementation"("androidx.test.ext:junit:1.1.1")
-    "androidTestImplementation"("androidx.test:runner:1.2.0")
-    "androidTestImplementation"("androidx.test.espresso:espresso-core:3.2.0")
-    "kaptAndroidTest"("com.google.dagger:dagger-compiler:2.23.1")
+    debugImplementation("com.facebook.stetho:stetho:1.5.1")
 
-    "testImplementation"("junit:junit:4.12")
-    "testImplementation"(kotlin("test", KotlinCompilerVersion.VERSION))
-    "testImplementation"("com.nhaarman:mockito-kotlin:1.6.0")
-    "testImplementation"("org.amshove.kluent:kluent:1.49")
+    androidTestImplementation(kotlin("test", KotlinCompilerVersion.VERSION))
+    androidTestImplementation("androidx.test.ext:junit:1.1.1")
+    androidTestImplementation("androidx.test:runner:1.2.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
+    kaptAndroidTest("com.google.dagger:dagger-compiler:2.23.1")
 
-    "testImplementation"("org.threeten:threetenbp:1.4.0") { exclude(group = "com.jakewharton.threetenabp") }
+    testImplementation("junit:junit:4.12")
+    testImplementation(kotlin("test", KotlinCompilerVersion.VERSION))
+    testImplementation("com.nhaarman:mockito-kotlin:1.6.0")
+    testImplementation("org.amshove.kluent:kluent:1.49")
+
+    testImplementation("org.threeten:threetenbp:1.4.0") { exclude(group = "com.jakewharton.threetenabp") }
 }
 
 kapt {

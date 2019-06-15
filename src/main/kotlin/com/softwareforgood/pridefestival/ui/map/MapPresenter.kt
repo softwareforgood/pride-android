@@ -38,7 +38,7 @@ private object GeoCoordinates {
     val PARK_NORTH_EAST = LatLng(44.972189, -93.28186)
     val PARK_SOUTH_WEST = LatLng(44.967810, -93.287307)
     val LORING_PARK_MAP_BOUNDS = LatLngBounds(PARK_SOUTH_WEST, PARK_NORTH_EAST)
-    val LORING_POND_BOUNDS = LatLngBounds(LatLng(44.968970, -93.284805), LatLng(44.969251, -93.284405))
+    val LORING_POND_BOUNDS = LatLngBounds(LatLng(44.968659, -93.285092), LatLng(44.969494, -93.283718))
 }
 
 sealed class MapMarkerData<out T : Mappable> {
