@@ -12,7 +12,7 @@ import io.reactivex.disposables.Disposables
 import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
 
-open class PrideApp : Application(), HasComponent<PrideAppComponent> {
+class PrideApp : Application(), HasComponent<PrideAppComponent> {
     private lateinit var _component: PrideAppComponent
     override val component: PrideAppComponent by lazy { _component }
 
@@ -27,7 +27,7 @@ open class PrideApp : Application(), HasComponent<PrideAppComponent> {
                 .application(this)
                 .build()
 
-        initialize(this)
+        component.initialize()
 
         // handle any exceptions that may happen after onError was called
         RxJavaPlugins.setErrorHandler { throwable ->

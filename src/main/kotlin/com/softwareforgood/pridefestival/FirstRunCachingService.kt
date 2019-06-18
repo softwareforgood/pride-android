@@ -41,7 +41,7 @@ class FirstRunCachingService @Inject constructor(
                 .doOnError { Timber.e(it, "Error loading vendors") }
                 .retry(3)
 
-        return Single.merge(events, info, parade, vendor)
+        return Single.mergeDelayError(events, info, parade, vendor)
                 .subscribe({
                     firstRunPref.set(false)
                 }, { Timber.e(it, "Error loading data on first run") })

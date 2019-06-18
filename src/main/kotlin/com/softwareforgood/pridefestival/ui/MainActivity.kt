@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import com.softwareforgood.pridefestival.BreadCrumbManager
 import com.softwareforgood.pridefestival.R
 import com.softwareforgood.pridefestival.ui.info.InfoActivity
 import com.softwareforgood.pridefestival.ui.map.MapView
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity(), HasComponent<ActivityComponent> {
 
     @Inject lateinit var eventClickHandler: EventClickHandler
     @Inject lateinit var vendorClickHandler: VendorClickHandler
+    @Inject lateinit var breadCrumbManager: BreadCrumbManager
 
     /**
      * Map of Navigation Enum to it's corresponding inflated view.
@@ -101,6 +103,7 @@ class MainActivity : AppCompatActivity(), HasComponent<ActivityComponent> {
 
     private fun Navigation.navigate() {
         Timber.i("navigate() on %s", this)
+        breadCrumbManager.logBreadCrumb("User navigating to $name")
         disposables.clear()
 
         toolbar.visibility = if (this == Navigation.MAP) View.GONE else View.VISIBLE
