@@ -29,7 +29,7 @@ buildScan {
 }
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(29)
     buildToolsVersion("28.0.3")
 
     signingConfigs {
@@ -55,10 +55,10 @@ android {
     defaultConfig {
         applicationId = "com.softwareforgood.pridefestival"
         minSdkVersion(21)
-        targetSdkVersion(28)
+        targetSdkVersion(29)
 
-        versionCode = 123
-        versionName = "1.6"
+        versionCode = 124
+        versionName = "1.6.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
