@@ -101,7 +101,7 @@ class DefaultMapPresenter @Inject constructor(
     private var map: GoogleMap? = null
 
     private val loringCameraOverlay get() = GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.pride_map))
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.pride_map_2019))
                 .positionFromBounds(LORING_PARK_MAP_BOUNDS)
 
     private val loringCamerUpdate get() = CameraUpdateFactory.newLatLngBounds(
