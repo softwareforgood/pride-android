@@ -1,6 +1,5 @@
 package com.softwareforgood.pridefestival.functional
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.softwareforgood.pridefestival.data.EventsLoader
 import org.junit.Before
 import org.junit.Test
@@ -12,7 +11,6 @@ import javax.inject.Inject
  * from the parse server as well as detect any changes that may occur to the data that would
  * cause the app to crash.
  */
-@RunWith(AndroidJUnit4::class)
 @Suppress("FunctionName")
 class EventsLoaderFunctionalTest : LoaderFunctionalTest {
 

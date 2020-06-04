@@ -1,13 +1,10 @@
 package com.softwareforgood.pridefestival.functional
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.softwareforgood.pridefestival.data.InfoLoader
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import javax.inject.Inject
 
-@RunWith(AndroidJUnit4::class)
 @Suppress("FunctionName")
 class InfoLoaderFunctionalTest : LoaderFunctionalTest {
 

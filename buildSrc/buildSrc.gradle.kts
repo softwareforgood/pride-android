@@ -8,9 +8,9 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("gradle-plugin", "1.3.31"))
+    implementation(kotlin("gradle-plugin", "1.3.72"))
     implementation("com.android.tools.build:gradle:3.4.1")
-    implementation("com.github.ben-manes:gradle-versions-plugin:0.21.0")
+    implementation("com.github.ben-manes:gradle-versions-plugin:0.28.0")
 }
 
 kotlinDslPluginOptions {
