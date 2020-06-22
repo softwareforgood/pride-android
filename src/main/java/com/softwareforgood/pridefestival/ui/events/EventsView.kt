@@ -7,12 +7,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
 import com.andrewreitz.velcro.betterviewanimator.BetterViewAnimator
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
+import com.softwareforgood.pridefestival.databinding.ViewEventsBinding
 import com.softwareforgood.pridefestival.util.activityComponent
 import com.softwareforgood.pridefestival.util.horizontalDivider
 import com.softwareforgood.pridefestival.util.toSearchEventStream
 import io.reactivex.Observable
 import io.reactivex.Single
-import kotlinx.android.synthetic.main.view_events.view.*
 import javax.inject.Inject
 
 interface EventsView {
@@ -25,16 +25,20 @@ interface EventsView {
 }
 
 class DefaultEventsView(context: Context, attrs: AttributeSet) :
-        BetterViewAnimator(context, attrs), EventsView {
+    BetterViewAnimator(context, attrs), EventsView {
 
-    override val recyclerView: RecyclerView get() = events_list
-    override val tryAgainButton: View get() = events_error
-    override val searches: Observable<SearchViewQueryTextEvent> get() = searchViewProvider
+    override val recyclerView: RecyclerView get() = binding.list
+    override val tryAgainButton: View get() = binding.error
+
+    override val searches: Observable<SearchViewQueryTextEvent>
+        get() = searchViewProvider
             .toSearchEventStream()
             .skip(1) // skip the initial empty event
 
     @Inject lateinit var presenter: EventsPresenter
     @Inject lateinit var searchViewProvider: Single<SearchView>
+
+    private lateinit var binding: ViewEventsBinding
 
     init {
         context.activityComponent.eventsComponent.inject(this)
@@ -42,7 +46,8 @@ class DefaultEventsView(context: Context, attrs: AttributeSet) :
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        events_list.horizontalDivider()
+        binding = ViewEventsBinding.bind(this)
+        binding.list.horizontalDivider()
     }
 
     override fun onAttachedToWindow() {
@@ -56,14 +61,14 @@ class DefaultEventsView(context: Context, attrs: AttributeSet) :
     }
 
     override fun showEventsList() {
-        displayedChildId = events_list.id
+        displayedChildId = binding.list.id
     }
 
     override fun showError() {
-        displayedChildId = events_error.id
+        displayedChildId = binding.error.id
     }
 
     override fun showSpinner() {
-        displayedChildId = events_spinner.id
+        displayedChildId = binding.spinner.id
     }
 }

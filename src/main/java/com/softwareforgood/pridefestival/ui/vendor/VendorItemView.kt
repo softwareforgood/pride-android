@@ -12,28 +12,35 @@ import com.softwareforgood.pridefestival.data.FavoritesStorage
 import com.softwareforgood.pridefestival.data.model.Vendor
 import com.softwareforgood.pridefestival.data.model.VendorColor
 import com.softwareforgood.pridefestival.data.model.VendorType
+import com.softwareforgood.pridefestival.databinding.ViewVendorListItemBinding
 import com.softwareforgood.pridefestival.util.*
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.view_vendor_list_item.view.*
 import timber.log.Timber
 
 class VendorItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
     private val disposables = CompositeDisposable()
 
+    private lateinit var binding: ViewVendorListItemBinding
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        binding = ViewVendorListItemBinding.bind(this)
+    }
+
     fun bind(vendor: Vendor, favoritesStorage: FavoritesStorage) {
         Timber.d("bind() called vendor = [%s]", vendor)
 
         with(vendor) {
-            vendor_list_item_image_container.setBackgroundColor(sectionColor.toColorInt())
-            vendor_list_item_title.text = name
-            vendor_list_item_details.text = details?.trim()
-            vendor_list_item_details.visibility = if (details == null) View.INVISIBLE else View.VISIBLE
-            vendor_list_item_location.text = locationName
-            vendor_list_item_location.setTextColor(sectionColor.toColorInt())
+            binding.imageContainer.setBackgroundColor(sectionColor.toColorInt())
+            binding.title.text = name
+            binding.details.text = details?.trim()
+            binding.details.visibility = if (details == null) View.INVISIBLE else View.VISIBLE
+            binding.location.text = locationName
+            binding.location.setTextColor(sectionColor.toColorInt())
 
-            vendor_list_item_website.visibility = if (website.isNullOrBlank()) View.INVISIBLE else View.VISIBLE
-            vendor_list_item_website.setOnClickListener {
+            binding.website.visibility = if (website.isNullOrBlank()) View.INVISIBLE else View.VISIBLE
+            binding.website.setOnClickListener {
                 !website.isNullOrBlank() || return@setOnClickListener
                 website?.toUri()?.launchCustomTab(context)
             }
@@ -43,14 +50,14 @@ class VendorItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
                 VendorType.NON_FOOD -> R.drawable.vendor_cell_type_nonfood_icon
                 VendorType.UNKNOWN -> R.drawable.cell_type_miscellaneous_icon
             }
-            vendor_list_item_image.setImageResource(vendorImage)
+            binding.image.setImageResource(vendorImage)
         }
 
         disposables += favoritesStorage.hasVendor(vendor)
                 .observeOnAndroidScheduler()
                 .subscribe(handleFavoriteVendor)
 
-        vendor_list_item_favorite_button.setOnClickListener {
+        binding.favoriteButton.setOnClickListener {
             disposables += favoritesStorage.hasVendor(vendor)
                     .flatMap { hasVendor: Boolean ->
                         if (hasVendor) favoritesStorage.deleteVendor(vendor).toSingleDefault(!hasVendor)
@@ -69,7 +76,7 @@ class VendorItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
     }
 
     private val handleFavoriteVendor = { hasEvent: Boolean ->
-        with(vendor_list_item_favorite_button) {
+        with(binding.favoriteButton) {
             if (hasEvent) setAsFavorited() else setAsNotFavorited()
         }
     }

@@ -6,7 +6,7 @@
     >
 
     <ProgressBar
-        android:id="@+id/parade_spinner"
+        android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -14,14 +14,14 @@
         />
 
     <com.softwareforgood.pridefestival.ui.misc.LinearRecyclerView
-        android:id="@+id/parade_list"
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         />
 
     <com.softwareforgood.pridefestival.ui.GenericErrorView
-        android:id="@+id/parade_error"
+        android:id="@+id/error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

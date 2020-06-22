@@ -6,26 +6,33 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.softwareforgood.pridefestival.R
 import com.softwareforgood.pridefestival.data.FavoritesStorage
 import com.softwareforgood.pridefestival.data.model.ParadeEvent
+import com.softwareforgood.pridefestival.databinding.ViewParadeListItemBinding
 import com.softwareforgood.pridefestival.util.*
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.view_parade_list_item.view.*
 
 class ParadeItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
     private var disposables = CompositeDisposable()
 
+    private lateinit var binding: ViewParadeListItemBinding
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        binding = ViewParadeListItemBinding.bind(this)
+    }
+
     fun bind(parade: ParadeEvent, favoritesStorage: FavoritesStorage) {
         with(parade) {
-            parade_list_item_title.text = name
-            parade_list_item_lineup.text = getString(R.string.lineup_number, lineupNumber)
-            parade_list_item_details.text = details ?: ""
+            binding.title.text = name
+            binding.lineup.text = getString(R.string.lineup_number, lineupNumber)
+            binding.details.text = details ?: ""
         }
 
         disposables += favoritesStorage.hasParade(parade)
                 .observeOnAndroidScheduler()
                 .subscribe(handleFavoriteParade)
 
-        parade_list_item_favorite_button.setOnClickListener {
+        binding.favoriteButton.setOnClickListener {
             disposables += favoritesStorage.hasParade(parade)
                     .flatMap { hasParade: Boolean ->
                         if (hasParade) favoritesStorage.deleteParade(parade).toSingleDefault(!hasParade)
@@ -42,7 +49,7 @@ class ParadeItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
     }
 
     private val handleFavoriteParade = { hasParade: Boolean ->
-        with(parade_list_item_favorite_button) {
+        with(binding.favoriteButton) {
                 if (hasParade) setAsFavorited() else setAsNotFavorited()
         }
     }

@@ -13,10 +13,10 @@ import com.softwareforgood.pridefestival.R
 import com.softwareforgood.pridefestival.data.FavoritesStorage
 import com.softwareforgood.pridefestival.data.model.Event
 import com.softwareforgood.pridefestival.data.model.Vendor
+import com.softwareforgood.pridefestival.databinding.ViewMapBinding
 import com.softwareforgood.pridefestival.ui.EasterEggActivity
 import com.softwareforgood.pridefestival.util.activityComponent
 import com.softwareforgood.pridefestival.util.horizontalDivider
-import kotlinx.android.synthetic.main.view_map.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -39,8 +39,10 @@ class DefaultMapView(
     @Inject lateinit var favoritesStorage: FavoritesStorage
     @Inject lateinit var breadCrumbManager: BreadCrumbManager
 
-    override val locationListView: RecyclerView get() = map_recycler_view
-    override val backToLoringParkButton: Button get() = map_back_to_loring_park
+    override val locationListView: RecyclerView get() = binding.recyclerView
+    override val backToLoringParkButton: Button get() = binding.backToLoringPark
+
+    private lateinit var binding: ViewMapBinding
 
     init {
         context.activityComponent.mapComponent.inject(this)
@@ -59,7 +61,8 @@ class DefaultMapView(
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        map_recycler_view.horizontalDivider()
+        binding = ViewMapBinding.bind(this)
+        binding.recyclerView.horizontalDivider()
     }
 
     override fun onDetachedFromWindow() {

@@ -9,7 +9,7 @@
     >
 
     <FrameLayout
-        android:id="@+id/event_list_item_image_container"
+        android:id="@+id/image_container"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
@@ -19,7 +19,7 @@
         tools:background="#ff00ff">
 
         <ImageView
-            android:id="@+id/event_list_item_image"
+            android:id="@+id/image"
             android:layout_width="76dp"
             android:layout_height="76dp"
             android:layout_gravity="center"
@@ -29,7 +29,7 @@
     </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/event_list_item_title"
+        android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -38,13 +38,13 @@
         android:lines="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toStartOf="@+id/event_list_item_favorite_button"
-        app:layout_constraintStart_toEndOf="@+id/event_list_item_image_container"
-        app:layout_constraintTop_toTopOf="@+id/event_list_item_image_container"
+        app:layout_constraintEnd_toStartOf="@+id/favorite_button"
+        app:layout_constraintStart_toEndOf="@+id/image_container"
+        app:layout_constraintTop_toTopOf="@+id/image_container"
         tools:text="Drag Revolution" />
 
     <ImageButton
-        android:id="@+id/event_list_item_favorite_button"
+        android:id="@+id/favorite_button"
         android:layout_width="48dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -59,20 +59,20 @@
         app:srcCompat="@drawable/ic_favorite_border" />
 
     <TextView
-        android:id="@+id/event_list_item_start_time"
+        android:id="@+id/start_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="0dp"
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        app:layout_constraintEnd_toStartOf="@+id/event_list_item_favorite_button"
+        app:layout_constraintEnd_toStartOf="@+id/favorite_button"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/event_list_item_title"
-        app:layout_constraintTop_toBottomOf="@+id/event_list_item_title"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title"
         tools:text="Starts at 3:00pm" />
 
     <TextView
-        android:id="@+id/event_list_item_location"
+        android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -80,14 +80,14 @@
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         app:layout_constraintBottom_toTopOf="@+id/event_list_website"
-        app:layout_constraintEnd_toStartOf="@+id/event_list_item_favorite_button"
+        app:layout_constraintEnd_toStartOf="@+id/favorite_button"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/event_list_item_start_time"
-        app:layout_constraintTop_toBottomOf="@+id/event_list_item_start_time"
+        app:layout_constraintStart_toStartOf="@+id/start_time"
+        app:layout_constraintTop_toBottomOf="@+id/start_time"
         tools:text="Stonewall Stage" />
 
     <TextView
-        android:id="@+id/event_list_website"
+        android:id="@+id/website"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -98,9 +98,9 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/accent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/event_list_item_favorite_button"
+        app:layout_constraintEnd_toStartOf="@+id/favorite_button"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/event_list_item_location"
-        app:layout_constraintTop_toBottomOf="@+id/event_list_item_location" />
+        app:layout_constraintStart_toStartOf="@+id/location"
+        app:layout_constraintTop_toBottomOf="@+id/location" />
 
 </com.softwareforgood.pridefestival.ui.events.EventItemView>
