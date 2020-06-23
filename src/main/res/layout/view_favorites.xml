@@ -6,7 +6,7 @@
     >
 
     <ProgressBar
-        android:id="@+id/favorites_spinner"
+        android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -14,14 +14,14 @@
         />
 
     <com.softwareforgood.pridefestival.ui.misc.LinearRecyclerView
-        android:id="@+id/favorites_list"
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         />
 
     <TextView
-        android:id="@+id/favorites_empty_message"
+        android:id="@+id/empty_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -33,7 +33,7 @@
         />
 
     <com.softwareforgood.pridefestival.ui.GenericErrorView
-        android:id="@+id/favorites_error"
+        android:id="@+id/error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

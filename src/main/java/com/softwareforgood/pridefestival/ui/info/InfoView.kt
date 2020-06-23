@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import com.andrewreitz.velcro.betterviewanimator.BetterViewAnimator
 import com.softwareforgood.pridefestival.R
+import com.softwareforgood.pridefestival.databinding.ActivityInfoBinding
 import com.softwareforgood.pridefestival.util.activityComponent
-import kotlinx.android.synthetic.main.activity_info.view.*
 import javax.inject.Inject
 
 interface InfoView {
@@ -21,12 +21,19 @@ class DefaultInfoView(
     attrs: AttributeSet
 ) : BetterViewAnimator(context, attrs), InfoView {
 
-    override val tryAgainButton: View by lazy { info_error }
+    override val tryAgainButton: View get() = binding.infoError
+
+    private lateinit var binding: ActivityInfoBinding
 
     @Inject lateinit var presenter: InfoPresenter
 
     init {
         context.activityComponent.infoComponent.inject(this)
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        binding = ActivityInfoBinding.bind(this)
     }
 
     override fun onAttachedToWindow() {
@@ -51,7 +58,7 @@ class DefaultInfoView(
         // not the prettiest of solutions but gotta take what you're given.
         // use base 64 images to make it easier to load the images into the Webview.
         // Everything goes into the webview to ensure color and sizes match what's on parse.
-        info_text.loadData("""
+        binding.infoText.loadData("""
             <head>
               <style>
                 .row {

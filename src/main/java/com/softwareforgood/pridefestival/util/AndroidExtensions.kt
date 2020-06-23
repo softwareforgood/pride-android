@@ -22,6 +22,8 @@ import kotlin.reflect.KClass
 fun ViewGroup.inflate(@LayoutRes resource: Int, attachToRoot: Boolean = false) =
         LayoutInflater.from(context).inflate(resource, this, attachToRoot)!!
 
+val View.layoutInflator get() = LayoutInflater.from(context)
+
 fun View.getColor(@ColorRes color: Int) = ContextCompat.getColor(context, color)
 fun View.getDrawable(@DrawableRes drawable: Int) = ContextCompat.getDrawable(context, drawable)
 

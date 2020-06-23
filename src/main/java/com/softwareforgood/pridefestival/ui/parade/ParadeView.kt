@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andrewreitz.velcro.betterviewanimator.BetterViewAnimator
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
 import com.softwareforgood.pridefestival.R
+import com.softwareforgood.pridefestival.databinding.ViewParadeBinding
 import com.softwareforgood.pridefestival.util.activityComponent
 import com.softwareforgood.pridefestival.util.horizontalDivider
 import com.softwareforgood.pridefestival.util.toSearchEventStream
 import io.reactivex.Observable
 import io.reactivex.Single
-import kotlinx.android.synthetic.main.view_parade.view.*
 import javax.inject.Inject
 
 interface ParadeView {
@@ -28,13 +28,15 @@ interface ParadeView {
 class DefaultParadeView(context: Context, attrs: AttributeSet)
     : BetterViewAnimator(context, attrs), ParadeView {
 
-    override val recyclerView: RecyclerView get() = parade_list
-    override val tryAgainButton: View get() = parade_error
+    override val recyclerView: RecyclerView get() = binding.list
+    override val tryAgainButton: View get() = binding.error
     override val searches: Observable<SearchViewQueryTextEvent>
         get() = searchViewProvider.toSearchEventStream()
 
     @Inject lateinit var presenter: ParadePresenter
     @Inject lateinit var searchViewProvider: Single<SearchView>
+
+    private lateinit var binding: ViewParadeBinding
 
     init {
         context.activityComponent.paradeComponent.inject(this)
@@ -42,7 +44,8 @@ class DefaultParadeView(context: Context, attrs: AttributeSet)
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        parade_list.horizontalDivider()
+        binding = ViewParadeBinding.bind(this)
+        binding.list.horizontalDivider()
     }
 
     override fun onAttachedToWindow() {
@@ -56,14 +59,14 @@ class DefaultParadeView(context: Context, attrs: AttributeSet)
     }
 
     override fun showParadeList() {
-        displayedChildId = R.id.parade_list
+        displayedChildId = binding.list.id
     }
 
     override fun showError() {
-        displayedChildId = R.id.parade_error
+        displayedChildId = binding.error.id
     }
 
     override fun showSpinner() {
-        displayedChildId = R.id.parade_spinner
+        displayedChildId = binding.spinner.id
     }
 }

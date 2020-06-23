@@ -3,7 +3,6 @@ plugins {
 
     kotlin("android")
     kotlin("kapt")
-    kotlin("android.extensions")
 
     id("gradle-versions")
     id("signing-config")
@@ -86,6 +85,8 @@ android {
     lintOptions {
         disable = setOf("InvalidPackage")
     }
+
+    buildFeatures.viewBinding = true
 }
 
 dependencies {

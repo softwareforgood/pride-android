@@ -15,13 +15,13 @@ import com.softwareforgood.pridefestival.data.model.EventType.PERFORMANCE
 import com.softwareforgood.pridefestival.data.model.EventType.MUSIC
 import com.softwareforgood.pridefestival.data.model.EventType.FOOD
 import com.softwareforgood.pridefestival.data.model.EventType.MISCELLANEOUS
+import com.softwareforgood.pridefestival.databinding.ViewEventListItemBinding
 import com.softwareforgood.pridefestival.util.getColor
 import com.softwareforgood.pridefestival.util.getDrawable
 import com.softwareforgood.pridefestival.util.observeOnAndroidScheduler
 import com.softwareforgood.pridefestival.util.plusAssign
 import com.softwareforgood.pridefestival.util.toTimeString
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.view_event_list_item.view.*
 import timber.log.Timber
 import com.softwareforgood.pridefestival.util.launchCustomTab
 import com.softwareforgood.pridefestival.util.setAsFavorited
@@ -31,18 +31,24 @@ import com.softwareforgood.pridefestival.util.toSingle
 
 class EventItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
+    private lateinit var binding: ViewEventListItemBinding
     private var disposables = CompositeDisposable()
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        binding = ViewEventListItemBinding.bind(this)
+    }
 
     fun bind(event: Event, favoritesStorage: FavoritesStorage) {
         Timber.d("bind() called with event = [%s]", event)
 
         with(event) {
             loadImage(event)
-            event_list_item_title.text = name
-            event_list_item_start_time.text = startTime?.toTimeString() ?: ""
-            event_list_item_location.text = locationName ?: ""
-            event_list_website.visibility = if (website.isNullOrBlank()) View.GONE else View.VISIBLE
-            event_list_website.setOnClickListener {
+            binding.title.text = name
+            binding.startTime.text = startTime?.toTimeString() ?: ""
+            binding.location.text = locationName ?: ""
+            binding.website.visibility = if (website.isNullOrBlank()) View.GONE else View.VISIBLE
+            binding.website.setOnClickListener {
                 !website.isNullOrBlank() || return@setOnClickListener
                 website?.toUri()?.launchCustomTab(context)
             }
@@ -52,7 +58,7 @@ class EventItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
                 .observeOnAndroidScheduler()
                 .subscribe(handleFavoriteEvent)
 
-        event_list_item_favorite_button.setOnClickListener {
+        binding.favoriteButton.setOnClickListener {
             disposables += favoritesStorage.hasEvent(event)
                     .flatMap { hasEvent: Boolean ->
                         if (hasEvent) favoritesStorage.deleteEvent(event).toSingleDefault(!hasEvent)
@@ -74,7 +80,7 @@ class EventItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
             SPORTS, FOOD -> getColor(R.color.event_green)
             MISCELLANEOUS -> getColor(R.color.event_yellow)
         }
-        event_list_item_image_container.setBackgroundColor(backgroundColor)
+        binding.imageContainer.setBackgroundColor(backgroundColor)
 
         // image in case network image doesn't exist or does not load
         val defaultImage = when (event.type) {
@@ -84,10 +90,11 @@ class EventItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
             FOOD -> getDrawable(R.drawable.vendor_cell_type_food_icon)
             MISCELLANEOUS -> getDrawable(R.drawable.cell_type_miscellaneous_icon)
         }
+
         glide.load(defaultImage)
                 .thumbnail(0.5f)
                 .apply(RequestOptions().fitCenter())
-                .into(event_list_item_image)
+                .into(binding.image)
 
         event.image?.let {
             disposables += it.toSingle()
@@ -96,14 +103,14 @@ class EventItemView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
                     .subscribe(
                             { bytes -> glide.load(bytes)
                                     .apply(RequestOptions().circleCrop())
-                                    .into(event_list_item_image) },
+                                    .into(binding.image) },
                             { error -> Timber.e(error, "Error loading image") }
                     )
         }
     }
 
     private val handleFavoriteEvent = { hasEvent: Boolean ->
-        with(event_list_item_favorite_button) {
+        with(binding.favoriteButton) {
             if (hasEvent) setAsFavorited() else setAsNotFavorited()
         }
     }
