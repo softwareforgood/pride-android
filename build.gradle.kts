@@ -101,10 +101,6 @@ dependencies {
 
     implementation("com.google.android.material:material:1.1.0")
 
-    implementation("com.google.firebase:firebase-core:17.4.2")
-    implementation("com.google.firebase:firebase-perf:19.0.7")
-    implementation("com.google.firebase:firebase-config:19.1.4")
-
     implementation("com.google.android.gms:play-services-maps:17.0.0")
 
     implementation("com.jakewharton:process-phoenix:2.0.0")

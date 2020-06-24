@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -62,8 +61,7 @@ import javax.inject.Qualifier
         @JvmStatic
         @Provides
         @Reusable
-        fun provideUpdateDuration(firebaseRemoteConfig: FirebaseRemoteConfig): Duration =
-                Duration.ofMinutes(firebaseRemoteConfig.getLong("parse_server_refresh_rate_mins"))
+        fun provideUpdateDuration(): Duration = Duration.ofMinutes(60)
 
         @JvmStatic
         @Provides

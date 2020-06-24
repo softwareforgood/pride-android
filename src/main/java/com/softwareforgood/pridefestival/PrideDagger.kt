@@ -7,7 +7,6 @@ import javax.inject.Scope
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import android.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.Preference
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -31,7 +30,7 @@ interface BasePrideAppComponent {
     }
 }
 
-@Module(includes = [FirebaseRemoteConfigModule::class])
+@Module
 object PrideAppModule {
 
     @JvmStatic
@@ -39,10 +38,9 @@ object PrideAppModule {
     @Reusable
     fun provideParseConfig(
         application: Application,
-        firebaseRemoteConfig: FirebaseRemoteConfig,
         @ParseServerUrl parseServerUrl: String
     ): Parse.Configuration = Parse.Configuration.Builder(application)
-                .applicationId(firebaseRemoteConfig.getString("parse_application_id"))
+                .applicationId("kl37CbvvFZGY1diRa7hbMG6X3ZQGcsKZEQRpNMHA")
                 .server(parseServerUrl)
                 .enableLocalDataStore()
                 .build()
@@ -60,10 +58,9 @@ object PrideAppModule {
     @Reusable
     @ParseServerUrl
     fun provideParseServerUrl(
-        firebaseRemoteConfig: FirebaseRemoteConfig,
         @UseStagingUrlPref useStagingUrl: Preference<Boolean>
-    ): String = if (useStagingUrl.get()) firebaseRemoteConfig.getString("parse_stage_url")
-    else firebaseRemoteConfig.getString("parse_url")
+    ): String = if (useStagingUrl.get()) "https://pride-festival-parse-staging.herokuapp.com/parse"
+    else "https://pride-festival-parse.herokuapp.com/parse"
 
     /**
      * Allows overrides on debug builds with Stetho.
