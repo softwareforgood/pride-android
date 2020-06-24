@@ -2,7 +2,6 @@ package com.softwareforgood.pridefestival.functional
 
 import android.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import com.softwareforgood.pridefestival.FirebaseRemoteConfigModule
 import com.softwareforgood.pridefestival.data.DataModule
 import dagger.Component
 import dagger.Module
@@ -16,7 +15,7 @@ interface TestComponent {
     fun inject(test: VendorLoaderFunctionalTest)
 }
 
-@Module(includes = [FirebaseRemoteConfigModule::class])
+@Module
 object TestModule {
     @JvmStatic
     @Provides
