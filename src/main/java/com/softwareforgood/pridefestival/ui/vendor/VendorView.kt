@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andrewreitz.velcro.betterviewanimator.BetterViewAnimator
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
 import com.softwareforgood.pridefestival.databinding.ViewVendorBinding
-import com.softwareforgood.pridefestival.util.activityComponent
+import com.softwareforgood.pridefestival.ui.ActivityComponent
+import com.softwareforgood.pridefestival.util.component
 import com.softwareforgood.pridefestival.util.horizontalDivider
 import com.softwareforgood.pridefestival.util.toSearchEventStream
 import io.reactivex.Observable
@@ -38,7 +39,7 @@ class DefaultVendorView(context: Context, attrs: AttributeSet)
     private lateinit var binding: ViewVendorBinding
 
     init {
-        context.activityComponent.vendorComponent.inject(this)
+        component<ActivityComponent>().vendorComponent.inject(this)
     }
 
     override fun onFinishInflate() {

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="accent">#7f3f97</color>
-    <color name="status_bar">#713886</color>
-    <color name="content_background">#fffafafa</color>
-    <color name="text_color_primary">#dd000000</color>
-    <color name="text_color_secondary">#89000000</color>
-    <color name="bottom_bar_text">#ffffffff</color>
-    <color name="bottom_bar_icon">#ffffffff</color>
+    <color name="purple_primary">#6a1b9a</color>
+    <color name="purple_light">#9c4dcc</color>
+    <color name="purple_dark">#38006b</color>
+    <color name="purple_secondary">#7b1fa2</color>
+    <color name="purple_secondary_light">#ae52d4</color>
+    <color name="purple_secondary_dark">#4a0072</color>
 
-    <color name="default_color">#d7d7d7</color>
+    <color name="white">#ffffff</color>
+    <color name="cream">#fffafafa</color>
+    <color name="light_grey">#d7d7d7</color>
 
     <color name="favorited_color">#ec1c24</color>
 

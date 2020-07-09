@@ -14,8 +14,9 @@ import com.softwareforgood.pridefestival.data.FavoritesStorage
 import com.softwareforgood.pridefestival.data.model.Event
 import com.softwareforgood.pridefestival.data.model.Vendor
 import com.softwareforgood.pridefestival.databinding.ViewMapBinding
+import com.softwareforgood.pridefestival.ui.ActivityComponent
 import com.softwareforgood.pridefestival.ui.EasterEggActivity
-import com.softwareforgood.pridefestival.util.activityComponent
+import com.softwareforgood.pridefestival.util.component
 import com.softwareforgood.pridefestival.util.horizontalDivider
 import timber.log.Timber
 import javax.inject.Inject
@@ -45,7 +46,7 @@ class DefaultMapView(
     private lateinit var binding: ViewMapBinding
 
     init {
-        context.activityComponent.mapComponent.inject(this)
+        component<ActivityComponent>().mapComponent.inject(this)
     }
 
     override fun onAttachedToWindow() {

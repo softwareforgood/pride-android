@@ -95,7 +95,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.3.0")
     implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
-    implementation("androidx.emoji:emoji-bundled:1.0.0")
+    implementation("androidx.emoji:emoji-bundled:1.1.0")
     implementation("androidx.browser:browser:1.2.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
 
@@ -107,10 +107,10 @@ dependencies {
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.4")
     implementation("com.jakewharton.timber:timber:4.7.1")
 
-    implementation("com.squareup.moshi:moshi:1.9.2")
+    implementation("com.squareup.moshi:moshi:1.9.3")
 
-    implementation("com.google.dagger:dagger:2.28")
-    kapt("com.google.dagger:dagger-compiler:2.28")
+    implementation("com.google.dagger:dagger:2.28.1")
+    kapt("com.google.dagger:dagger-compiler:2.28.1")
 
     implementation("io.reactivex.rxjava2:rxjava:2.2.19")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
@@ -129,7 +129,7 @@ dependencies {
     implementation("pub.devrel:easypermissions:3.0.0")
 
     releaseImplementation("io.sentry:sentry-android:1.7.16")
-    releaseImplementation("org.slf4j:slf4j-nop:1.7.25")
+    releaseImplementation("org.slf4j:slf4j-nop:1.7.30")
 
     debugImplementation("com.facebook.stetho:stetho:1.5.1")
 
@@ -137,7 +137,7 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.2.0")
     androidTestImplementation("androidx.test:runner:1.2.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
-    kaptAndroidTest("com.google.dagger:dagger-compiler:2.28")
+    kaptAndroidTest("com.google.dagger:dagger-compiler:2.28.1")
 
     testImplementation(kotlin("test-junit"))
     testImplementation("com.nhaarman:mockito-kotlin:1.6.0")

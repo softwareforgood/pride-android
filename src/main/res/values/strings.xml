@@ -7,7 +7,6 @@
     <string name="vendors">Vendors</string>
     <string name="favorites">Favorites</string>
     <string name="parade">Parade</string>
-    <string name="favorite">Favorite</string>
 
     <string name="lineup_number">Lineup Number: %s</string>
     <string name="info_page">info page</string>
@@ -29,4 +28,5 @@
     <string name="event_website_text">Visit Website</string>
     <string name="visit_vendor_wedsite">Visit Vendor Website</string>
     <string name="search">Search</string>
+    <string name="easter_egg_text">Like The App? Then give this guy a high five, a hug, and/or maybe a beer. Don\'t like the app? Let this guy know, and still give him a high five, hug, and/or a beer.</string>
 </resources>

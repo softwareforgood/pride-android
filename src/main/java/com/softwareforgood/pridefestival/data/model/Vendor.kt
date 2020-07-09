@@ -43,7 +43,7 @@ enum class VendorColor(
     GREEN(R.color.vendor_green),
     BLUE(R.color.vendor_blue),
     PURPLE(R.color.vendor_purple),
-    UNKNOWN(R.color.default_color);
+    UNKNOWN(R.color.light_grey);
 
     companion object {
         fun fromColorString(color: String?): VendorColor =

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/content_background"
+    android:background="@color/cream"
     >
 
     <FrameLayout
@@ -96,7 +96,7 @@
         android:background="?android:selectableItemBackgroundBorderless"
         android:text="@string/event_website_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/accent"
+        android:textColor="?colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/favorite_button"
         app:layout_constraintHorizontal_bias="0.0"

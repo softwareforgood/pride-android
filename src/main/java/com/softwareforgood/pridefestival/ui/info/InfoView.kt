@@ -6,7 +6,7 @@ import android.view.View
 import com.andrewreitz.velcro.betterviewanimator.BetterViewAnimator
 import com.softwareforgood.pridefestival.R
 import com.softwareforgood.pridefestival.databinding.ActivityInfoBinding
-import com.softwareforgood.pridefestival.util.activityComponent
+import com.softwareforgood.pridefestival.util.component
 import javax.inject.Inject
 
 interface InfoView {
@@ -23,21 +23,14 @@ class DefaultInfoView(
 
     override val tryAgainButton: View get() = binding.infoError
 
-    private lateinit var binding: ActivityInfoBinding
-
+    // This is done because the view layout is just implemented in the
+    // activity's xml.
+    @Inject lateinit var binding: ActivityInfoBinding
     @Inject lateinit var presenter: InfoPresenter
-
-    init {
-        context.activityComponent.infoComponent.inject(this)
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        binding = ActivityInfoBinding.bind(this)
-    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        component<InfoComponent>().inject(this)
         presenter.attachView(this)
     }
 

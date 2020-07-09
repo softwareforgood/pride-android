@@ -8,7 +8,7 @@ import com.f2prateek.rx.preferences2.Preference
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.softwareforgood.pridefestival.UseStagingUrlPref
 import com.softwareforgood.pridefestival.util.HasComponent
-import com.softwareforgood.pridefestival.util.makeComponent
+import com.softwareforgood.pridefestival.util.makeActivityComponent
 import com.softwareforgood.pridefestival.util.showLongToast
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposables
@@ -28,7 +28,7 @@ class DeepLinkActivity : AppCompatActivity(), HasComponent<ActivityComponent> {
 
     private var disposeable = Disposables.empty()
 
-    override val component: ActivityComponent by lazy { makeComponent() }
+    override val component: ActivityComponent by lazy { makeActivityComponent() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

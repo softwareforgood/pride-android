@@ -1,19 +1,17 @@
 package com.softwareforgood.pridefestival
 
 import android.app.Application
+import com.f2prateek.rx.preferences2.Preference
+import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.parse.Parse
 import com.softwareforgood.pridefestival.ui.ActivityComponent
-import javax.inject.Scope
-import com.f2prateek.rx.preferences2.RxSharedPreferences
-import android.preference.PreferenceManager
-import com.f2prateek.rx.preferences2.Preference
+import com.softwareforgood.pridefestival.util.defaultSharedPreference
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import javax.inject.Qualifier
-import kotlin.annotation.AnnotationTarget.FIELD
-import kotlin.annotation.AnnotationTarget.FUNCTION
-import kotlin.annotation.AnnotationTarget.VALUE_PARAMETER
+import javax.inject.Scope
+import kotlin.annotation.AnnotationTarget.*
 
 @Scope annotation class ApplicationScope
 
@@ -49,8 +47,7 @@ object PrideAppModule {
     @Provides
     @Reusable
     fun provideRxSharedPreferences(application: Application): RxSharedPreferences {
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(application)
-        return RxSharedPreferences.create(sharedPrefs)
+        return RxSharedPreferences.create(application.defaultSharedPreference)
     }
 
     @JvmStatic

@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andrewreitz.velcro.betterviewanimator.BetterViewAnimator
 import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
 import com.softwareforgood.pridefestival.databinding.ViewEventsBinding
-import com.softwareforgood.pridefestival.util.activityComponent
+import com.softwareforgood.pridefestival.ui.ActivityComponent
+import com.softwareforgood.pridefestival.util.component
 import com.softwareforgood.pridefestival.util.horizontalDivider
 import com.softwareforgood.pridefestival.util.toSearchEventStream
 import io.reactivex.Observable
@@ -41,7 +42,7 @@ class DefaultEventsView(context: Context, attrs: AttributeSet) :
     private lateinit var binding: ViewEventsBinding
 
     init {
-        context.activityComponent.eventsComponent.inject(this)
+        component<ActivityComponent>().eventsComponent.inject(this)
     }
 
     override fun onFinishInflate() {

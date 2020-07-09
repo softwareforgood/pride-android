@@ -1,6 +1,7 @@
 package com.softwareforgood.pridefestival.util
 
 import android.content.Context
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import com.softwareforgood.pridefestival.PrideApp
@@ -20,16 +21,17 @@ interface HasComponent<out T> {
     val component: T
 }
 
-fun <T> T.makeComponent(
+fun <T> T.makeActivityComponent(
     searchViewProvider: Single<SearchView>? = null
-): ActivityComponent where T : HasComponent<ActivityComponent>,
-                                T : AppCompatActivity = (application as PrideApp)
-        .component
-        .activityComponentBuilder()
-        .activity(this)
-        .searchViewProvider(searchViewProvider ?: Single.error<SearchView>(Throwable("Search view not provided by the activity")))
-        .build()
+): ActivityComponent where T : HasComponent<*>, T : AppCompatActivity = (application as PrideApp)
+    .component
+    .activityComponentBuilder()
+    .activity(this)
+    .searchViewProvider(
+        searchViewProvider
+            ?: Single.error<SearchView>(Throwable("Search view not provided by the activity"))
+    )
+    .build()
 
 @Suppress("UNCHECKED_CAST")
-val Context.activityComponent
-    get() = (this as HasComponent<ActivityComponent>).component
+fun <T> View.component(): T = (context as HasComponent<T>).component

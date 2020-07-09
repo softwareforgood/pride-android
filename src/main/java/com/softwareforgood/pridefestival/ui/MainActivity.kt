@@ -15,7 +15,7 @@ import com.softwareforgood.pridefestival.ui.misc.EventClickHandler
 import com.softwareforgood.pridefestival.ui.misc.VendorClickHandler
 import com.softwareforgood.pridefestival.util.HasComponent
 import com.softwareforgood.pridefestival.util.launchActivity
-import com.softwareforgood.pridefestival.util.makeComponent
+import com.softwareforgood.pridefestival.util.makeActivityComponent
 import com.softwareforgood.pridefestival.util.plusAssign
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), HasComponent<ActivityComponent> {
     private lateinit var binding: ActivityMainBinding
 
     override val component: ActivityComponent by lazy {
-        makeComponent(searchViewPublisher.take(1).singleOrError())
+        makeActivityComponent(searchViewPublisher.take(1).singleOrError())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

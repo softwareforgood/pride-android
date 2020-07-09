@@ -28,7 +28,7 @@ interface ActivityComponent {
     val vendorComponent: VendorComponent
     val mapComponent: MapComponent
     val favoritesComponent: FavoritesComponent
-    val infoComponent: InfoComponent
+    val infoComponentBuilder: InfoComponent.Builder
 
     fun inject(activity: MainActivity)
     fun inject(deepLinkActivity: DeepLinkActivity)
