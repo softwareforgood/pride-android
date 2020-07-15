@@ -13,7 +13,7 @@ repositories {
     google()
     mavenCentral()
     jcenter()
-    maven { url = uri("https://jitpack.io") }
+    maven("https://jitpack.io")
 }
 
 android {
@@ -117,7 +117,7 @@ dependencies {
     implementation("com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.2.0")
     implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")
 
-    implementation("com.parse:parse-android:1.17.3")
+    implementation("com.github.parse-community.Parse-SDK-Android:parse:1.24.2")
 
     implementation("com.github.bumptech.glide:glide:4.11.0")
     kapt("com.github.bumptech.glide:compiler:4.11.0")
