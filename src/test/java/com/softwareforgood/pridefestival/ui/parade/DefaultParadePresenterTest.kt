@@ -46,7 +46,6 @@ class DefaultParadePresenterTest {
 
         given { paradeView.recyclerView } willReturn { recyclerView }
         given { paradeView.tryAgainButton } willReturn { tryAgainButton }
-        given { paradeView.searches } willReturn { Observable.never() }
     }
 
     @Test fun `should set adapter on recycler view`() {
@@ -85,7 +84,7 @@ class DefaultParadePresenterTest {
         classUnderTest.attachView(paradeView)
 
         // then
-        classUnderTest.eventsDisposable.size() shouldBe 2
+        classUnderTest.eventsDisposable.size() shouldBe 1
 
         // and when
         classUnderTest.detachView()
@@ -118,17 +117,16 @@ class DefaultParadePresenterTest {
 
     @Test fun `should load events with search query when one is input`() {
         given { paradeLoader.parades } willReturn { Single.never() } willReturn { Single.just(parades.toList()) }
-        given { paradeView.searches } willReturn {
-            // values based on names in events view.
-            Observable.just("ch", "CHY").map { SearchViewQueryTextEvent.create(mock(), it, false) }
-        }
 
         classUnderTest.attachView(paradeView)
+        classUnderTest.search(
+            Observable.just("c", "CH").map { SearchViewQueryTextEvent.create(mock(), it, false) }
+        )
+
         testScheduler.advanceTimeBy(5, TimeUnit.SECONDS)
 
-        then(paradeView).should().searches
         then(paradeLoader).should(times(2)).parades
-        then(paradeAdapter).should().loadParadeEvents(parades.toList())
+        then(paradeAdapter).should().loadParadeEvents(parades.toList().dropLast(1))
         then(paradeView).should().showParadeList()
     }
 }

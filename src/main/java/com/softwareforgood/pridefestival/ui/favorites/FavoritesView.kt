@@ -3,23 +3,17 @@ package com.softwareforgood.pridefestival.ui.favorites
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.andrewreitz.velcro.betterviewanimator.BetterViewAnimator
-import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
 import com.softwareforgood.pridefestival.databinding.ViewFavoritesBinding
 import com.softwareforgood.pridefestival.ui.ActivityComponent
 import com.softwareforgood.pridefestival.util.component
 import com.softwareforgood.pridefestival.util.horizontalDivider
-import com.softwareforgood.pridefestival.util.toSearchEventStream
-import io.reactivex.Observable
-import io.reactivex.Single
 import javax.inject.Inject
 
 interface FavoritesView {
     val recyclerView: RecyclerView
     val tryAgainButton: View
-    val searches: Observable<SearchViewQueryTextEvent>
     fun showFavoritesList()
     fun showError()
     fun showSpinner()
@@ -29,15 +23,12 @@ interface FavoritesView {
 class DefaultFavoritesView(
     context: Context,
     attrs: AttributeSet
-) : BetterViewAnimator(context, attrs), FavoritesView {
+) : ConstraintLayout(context, attrs), FavoritesView {
 
     override val recyclerView: RecyclerView get() = binding.list
     override val tryAgainButton: View get() = binding.error
-    override val searches: Observable<SearchViewQueryTextEvent>
-        get() = searchViewProvider.toSearchEventStream()
 
     @Inject lateinit var presenter: FavoritesPresenter
-    @Inject lateinit var searchViewProvider: Single<SearchView>
 
     private lateinit var binding: ViewFavoritesBinding
 
@@ -62,18 +53,18 @@ class DefaultFavoritesView(
     }
 
     override fun showFavoritesList() {
-        displayedChildId = binding.list.id
+        binding.viewAnimator.displayedChildId = binding.list.id
     }
 
     override fun showError() {
-        displayedChildId = binding.error.id
+        binding.viewAnimator.displayedChildId = binding.error.id
     }
 
     override fun showSpinner() {
-        displayedChildId = binding.spinner.id
+        binding.viewAnimator.displayedChildId = binding.spinner.id
     }
 
     override fun showEmptyMessage() {
-        displayedChildId = binding.emptyMessage.id
+        binding.viewAnimator.displayedChildId = binding.emptyMessage.id
     }
 }

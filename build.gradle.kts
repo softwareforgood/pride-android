@@ -92,16 +92,18 @@ android {
 dependencies {
     implementation(kotlin("stdlib"))
 
-    implementation("androidx.core:core-ktx:1.3.0")
-    implementation("androidx.appcompat:appcompat:1.1.0")
+    implementation("androidx.core:core-ktx:1.3.1")
+    implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.emoji:emoji-bundled:1.1.0")
     implementation("androidx.browser:browser:1.2.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.0")
 
-    implementation("com.google.android.material:material:1.1.0")
+    implementation("com.google.android.material:material:1.2.0")
 
-    implementation("com.google.android.gms:play-services-maps:17.0.0")
+    implementation("com.google.android.libraries.maps:maps:3.1.0-beta")
 
     implementation("com.jakewharton:process-phoenix:2.0.0")
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.4")
@@ -110,6 +112,7 @@ dependencies {
     implementation("com.squareup.moshi:moshi:1.9.3")
 
     implementation("com.google.dagger:dagger:2.28.1")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt("com.google.dagger:dagger-compiler:2.28.1")
 
     implementation("io.reactivex.rxjava2:rxjava:2.2.19")

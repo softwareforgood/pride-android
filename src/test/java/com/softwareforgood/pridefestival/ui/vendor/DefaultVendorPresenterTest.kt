@@ -46,7 +46,6 @@ class DefaultVendorPresenterTest {
 
         given { vendorView.recyclerView } willReturn { recyclerView }
         given { vendorView.tryAgainButton } willReturn { tryAgainButton }
-        given { vendorView.searches } willReturn { Observable.never() }
     }
 
     @Test fun `should attach adapter and list decoration`() {
@@ -90,7 +89,7 @@ class DefaultVendorPresenterTest {
 
         classUnderTest.attachView(vendorView)
 
-        classUnderTest.vendorDisposable.size() shouldBe 2
+        classUnderTest.vendorDisposable.size() shouldBe 1
 
         classUnderTest.detachView()
 
@@ -113,17 +112,16 @@ class DefaultVendorPresenterTest {
 
     @Test fun `should load events with search query when one is input`() {
         given { vendorLoader.vendors } willReturn { Single.never() } willReturn { Single.just(vendors.toList()) }
-        given { vendorView.searches } willReturn {
-            // values based on names in events view.
-            Observable.just("ch", "CHY").map { SearchViewQueryTextEvent.create(mock(), it, false) }
-        }
 
         classUnderTest.attachView(vendorView)
+        classUnderTest.search(
+            Observable.just("he", "hem").map { SearchViewQueryTextEvent.create(mock(), it, false) }
+        )
+
         testScheduler.advanceTimeBy(5, TimeUnit.SECONDS)
 
-        then(vendorView).should().searches
         then(vendorLoader).should(times(2)).vendors
-        then(vendorAdapter).should().loadVendors(vendors.toList())
+        then(vendorAdapter).should().loadVendors(vendors.toList().dropLast(1))
         then(vendorView).should().showVendorList()
     }
 }

@@ -5,7 +5,10 @@
     package="com.softwareforgood.pridefestival"
     >
 
-    <application>
+    <application
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m"
+        >
         <meta-data
             tools:replace="android:value"
             android:name="com.google.android.geo.API_KEY"

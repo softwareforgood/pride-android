@@ -8,8 +8,8 @@ import com.softwareforgood.pridefestival.R
 import com.softwareforgood.pridefestival.data.FavoritesStorage
 import com.softwareforgood.pridefestival.data.model.Vendor
 import com.softwareforgood.pridefestival.ui.misc.BindableRecyclerAdapter
+import com.softwareforgood.pridefestival.ui.misc.MapNavigator
 import com.softwareforgood.pridefestival.ui.misc.SimpleListHeaderView
-import com.softwareforgood.pridefestival.ui.misc.VendorClickHandler
 import com.softwareforgood.pridefestival.util.inflate
 import javax.inject.Inject
 
@@ -21,7 +21,7 @@ abstract class VendorAdapter : BindableRecyclerAdapter<Vendor>(),
 @VendorScope
 class DefaultVendorAdapter @Inject constructor(
     private val favoritesStorage: FavoritesStorage,
-    private val vendorClickHandler: VendorClickHandler
+    private val mapNavigator: MapNavigator
 ) : VendorAdapter() {
     private var headers = listOf<Char>()
     private var vendors = listOf<Vendor>()
@@ -46,7 +46,7 @@ class DefaultVendorAdapter @Inject constructor(
 
     override fun bindView(item: Vendor, view: View, position: Int) {
         (view as VendorItemView).apply {
-            setOnClickListener { vendorClickHandler.publishClick(item) }
+            setOnClickListener { mapNavigator.navigateToVendor(item) }
             bind(item, favoritesStorage)
         }
     }

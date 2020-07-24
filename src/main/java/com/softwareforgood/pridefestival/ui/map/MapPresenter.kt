@@ -2,19 +2,18 @@ package com.softwareforgood.pridefestival.ui.map
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
+import com.google.android.libraries.maps.CameraUpdateFactory
+import com.google.android.libraries.maps.GoogleMap
 import com.softwareforgood.pridefestival.ui.mvp.Presenter
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.GroundOverlayOptions
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.maps.model.BitmapDescriptorFactory
+import com.google.android.libraries.maps.model.GroundOverlayOptions
+import com.google.android.libraries.maps.model.LatLng
+import com.google.android.libraries.maps.model.LatLngBounds
+import com.google.android.libraries.maps.model.MapStyleOptions
+import com.google.android.libraries.maps.model.Marker
+import com.google.android.libraries.maps.model.MarkerOptions
 import com.softwareforgood.pridefestival.R
 import com.softwareforgood.pridefestival.data.EventsLoader
 import com.softwareforgood.pridefestival.data.VendorLoader
@@ -25,6 +24,7 @@ import com.softwareforgood.pridefestival.ui.map.GeoCoordinates.LORING_PARK_MAP_B
 import com.softwareforgood.pridefestival.ui.map.GeoCoordinates.LORING_POND_BOUNDS
 import com.softwareforgood.pridefestival.util.observeOnAndroidScheduler
 import com.softwareforgood.pridefestival.util.plusAssign
+import com.softwareforgood.pridefestival.util.subscribeOnIoScheduler
 import com.softwareforgood.pridefestival.util.toLatLng
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
@@ -50,8 +50,8 @@ data class VendorMarkerData(override val data: Vendor) : MapMarkerData<Vendor>()
 
 abstract class MapPresenter : Presenter<MapView>() {
     abstract fun attachMap(map: GoogleMap)
-    abstract fun goToEvent(event: Event)
-    abstract fun goToVendor(vendor: Vendor)
+    abstract fun goToEvent(eventId: String)
+    abstract fun goToVendor(vendorId: String)
 }
 
 @MapScope
@@ -109,8 +109,8 @@ class DefaultMapPresenter @Inject constructor(
                 MAX_ZOOM_LEVEL
     )
 
-    private var goToEvent: () -> Unit = {}
-    private var goToVendor: () -> Unit = {}
+    private var eventId: String? = null
+    private var vendorId: String? = null
 
     /** @see easterEggClickHandler */
     private var pondClickCount = AtomicInteger(0)
@@ -122,7 +122,8 @@ class DefaultMapPresenter @Inject constructor(
 
     override fun onViewDetached() {
         Timber.d("onViewDetached() called")
-        goToEvent = {}
+        eventId = null
+        vendorId = null
         markers = emptySet()
         markerData = emptySet()
         map?.setOnCameraMoveStartedListener(null)
@@ -167,8 +168,8 @@ class DefaultMapPresenter @Inject constructor(
                 .subscribe { (vendor, markerOptions) ->
                     val marker = map.addMarker(markerOptions)
                     marker.tag = vendor
-                    markers += marker
-                    markerData += vendor
+                    markers = markers + marker
+                    markerData = markerData + vendor
                 }
 
         disposables += eventsLoader.events
@@ -184,16 +185,14 @@ class DefaultMapPresenter @Inject constructor(
                 .doOnComplete {
                     // if we got here from clicking and event or vender,
                     // now that everything was loaded try to go there now.
-                    goToEvent()
-                    goToEvent = {}
-                    goToVendor()
-                    goToVendor = {}
+                    eventId?.let { showEvent(it) }
+                    vendorId?.let { showVendor(it) }
                 }
                 .subscribe { (event, markerOptions) ->
                     val marker = map.addMarker(markerOptions)
                     marker.tag = event
-                    markers += marker
-                    markerData += event
+                    markers = markers + marker
+                    markerData = markerData + event
                 }
 
         // map loaded call back can be called after user has navigated away from the screen so
@@ -203,35 +202,58 @@ class DefaultMapPresenter @Inject constructor(
         }
     }
 
-    override fun goToEvent(event: Event) {
-        Timber.d("goToEvent() event = [%s]", event)
-        goToEvent = {
-            Timber.d("goToEvent\$lambda() event = [%s]", event)
-
-            val data = EventMarkerData(event)
-            val markers = markerData.filter { it.equalOnLocation(data) }.toMutableList()
-            Timber.d("goToEvent() markers = [%s]", markers)
-
-            // place the event that was passed in at the top of the list
-            val firstMarker = markers.first { (it.data as? Event) == event }
-            markers.remove(firstMarker)
-            markers.add(0, firstMarker)
-
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(event.location?.toLatLng(), MAP_GO_TO_ZOOM_LEVEL))
-
-            showMarkers(markers)
-        }
+    override fun goToEvent(eventId: String) {
+        this.eventId = eventId
     }
 
-    override fun goToVendor(vendor: Vendor) {
-        Timber.d("goToVendor() vendor = [%s]", vendor)
-        goToVendor = {
-            Timber.d("goToVendor\$lambda() vendor = [%s]", vendor)
+    override fun goToVendor(vendorId: String) {
+        this.vendorId = vendorId
+    }
 
-            val data = VendorMarkerData(vendor)
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(vendor.location?.toLatLng(), MAP_GO_TO_ZOOM_LEVEL))
-            showMarkers(listOf(data))
-        }
+    private fun showEvent(eventId: String) {
+        disposables += eventsLoader.getEvent(eventId)
+            .observeOnAndroidScheduler()
+            .subscribe { event ->
+                Timber.d("goToEvent() event = [%s]", event)
+
+                val data = EventMarkerData(event)
+                val markers = markerData.filter { it.equalOnLocation(data) }.toMutableList()
+                Timber.d("goToEvent() markers = [%s]", markers)
+
+                // place the event that was passed in at the top of the list
+                val firstMarker = markers.first { (it.data as? Event) == event }
+                markers.remove(firstMarker)
+                markers.add(0, firstMarker)
+
+                map?.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        event.location?.toLatLng(),
+                        MAP_GO_TO_ZOOM_LEVEL
+                    )
+                )
+
+                showMarkers(markers)
+                MapPresenter@this.eventId = null
+            }
+    }
+
+    private fun showVendor(vendorId: String) {
+        disposables += vendorLoader.getVendor(vendorId)
+            .observeOnAndroidScheduler()
+            .subscribe { vendor ->
+                Timber.d("goToVendor() vendor = [%s]", vendor)
+
+                val data = VendorMarkerData(vendor)
+                map?.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        vendor.location?.toLatLng(),
+                        MAP_GO_TO_ZOOM_LEVEL
+                    )
+                )
+                showMarkers(listOf(data))
+
+                MapPresenter@this.vendorId = null
+            }
     }
 
     private fun setMarkerIconBasedOnZoom() {

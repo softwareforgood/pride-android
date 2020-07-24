@@ -3,6 +3,7 @@ package com.softwareforgood.pridefestival.data.model
 import com.parse.ParseFile
 import com.parse.ParseGeoPoint
 import org.threeten.bp.ZonedDateTime
+import java.io.Serializable
 
 data class Event(
     override val objectId: String,
@@ -15,7 +16,22 @@ data class Event(
     val type: EventType = EventType.MISCELLANEOUS,
     val image: ParseFile? = null,
     val website: String? = null
-) : Mappable, HasParseId, HasGeoLocation
+) : Mappable, HasParseId, HasGeoLocation, Serializable {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Event
+
+        if (objectId != other.objectId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return objectId.hashCode()
+    }
+}
 
 enum class EventType(val parseText: String) {
     PERFORMANCE("performance"),

@@ -2,12 +2,14 @@ package com.softwareforgood.pridefestival.ui.events
 
 import androidx.annotation.VisibleForTesting
 import ca.barrenechea.widget.recyclerview.decoration.StickyHeaderDecoration
+import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
 import com.softwareforgood.pridefestival.data.EventsLoader
 import com.softwareforgood.pridefestival.data.model.Event
 import com.softwareforgood.pridefestival.ui.mvp.Presenter
 import com.softwareforgood.pridefestival.util.observeOnAndroidScheduler
 import com.softwareforgood.pridefestival.util.plusAssign
 import com.softwareforgood.pridefestival.util.toSearchableText
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,6 +26,13 @@ class DefaultEventsPresenter @Inject constructor(
     @VisibleForTesting
     var eventsDisposable = CompositeDisposable()
 
+    override fun search(searches: Observable<SearchViewQueryTextEvent>) {
+        eventsDisposable += searches
+            .toSearchableText()
+            .observeOnAndroidScheduler()
+            .subscribe(::loadEvents)
+    }
+
     override fun onViewAttached() {
         Timber.d("onViewAttached() called")
 
@@ -31,11 +40,6 @@ class DefaultEventsPresenter @Inject constructor(
             adapter = eventsAdapter
             addItemDecoration(listDecor)
         }
-
-        eventsDisposable += view.searches
-                .toSearchableText()
-                .observeOnAndroidScheduler()
-                .subscribe(::loadEvents)
 
         loadEvents()
 

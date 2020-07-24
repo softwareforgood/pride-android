@@ -1,6 +1,6 @@
 package com.softwareforgood.pridefestival.util
 
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.maps.model.LatLng
 import com.parse.ParseFile
 import com.parse.ParseGeoPoint
 import com.parse.ParseObject

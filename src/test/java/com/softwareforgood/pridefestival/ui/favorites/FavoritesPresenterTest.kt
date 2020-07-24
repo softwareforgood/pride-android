@@ -44,7 +44,6 @@ class FavoritesPresenterTest {
 
         given { favoritesView.recyclerView } willReturn { recyclerView }
         given { favoritesView.tryAgainButton } willReturn { tryAgainButton }
-        given { favoritesView.searches } willReturn { Observable.never() }
     }
 
     @Test fun `recycler view should be setup when view is attached`() {
@@ -98,7 +97,7 @@ class FavoritesPresenterTest {
         given { favoritesAdapter.loadData() } willReturn { Completable.complete() }
 
         classUnderTest.attachView(favoritesView)
-        classUnderTest.favoritesDisposable.size() shouldBe 2
+        classUnderTest.favoritesDisposable.size() shouldBe 1
 
         classUnderTest.detachView()
         classUnderTest.favoritesDisposable.size() shouldBe 0
@@ -121,15 +120,14 @@ class FavoritesPresenterTest {
     @Test fun `should load events with search query when one is input`() {
         given { favoritesAdapter.loadData(any()) } willReturn { Completable.complete() }
         given { favoritesAdapter.itemCount } willReturn { 2 }
-        given { favoritesView.searches } willReturn {
-            // values based on names in events view.
-            Observable.just("a", "b").map { SearchViewQueryTextEvent.create(mock(), it, false) }
-        }
 
         classUnderTest.attachView(favoritesView)
+        classUnderTest.search(
+            Observable.just("a", "b").map { SearchViewQueryTextEvent.create(mock(), it, false) }
+        )
+
         testScheduler.advanceTimeBy(5, TimeUnit.SECONDS)
 
-        then(favoritesView).should().searches
         then(favoritesAdapter).should(times(2)).loadData(any())
         then(favoritesView).should(times(2)).showFavoritesList()
     }
