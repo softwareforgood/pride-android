@@ -2,12 +2,14 @@ package com.softwareforgood.pridefestival.ui.vendor
 
 import androidx.annotation.VisibleForTesting
 import ca.barrenechea.widget.recyclerview.decoration.StickyHeaderDecoration
+import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
 import com.softwareforgood.pridefestival.data.VendorLoader
 import com.softwareforgood.pridefestival.data.model.Vendor
 import com.softwareforgood.pridefestival.ui.mvp.Presenter
 import com.softwareforgood.pridefestival.util.observeOnAndroidScheduler
 import com.softwareforgood.pridefestival.util.plusAssign
 import com.softwareforgood.pridefestival.util.toSearchableText
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,6 +26,12 @@ class DefaultVendorPresenter @Inject constructor(
     @VisibleForTesting
     var vendorDisposable = CompositeDisposable()
 
+    override fun search(searches: Observable<SearchViewQueryTextEvent>) {
+        vendorDisposable += searches
+            .toSearchableText()
+            .subscribe(::loadVendors)
+    }
+
     override fun onViewAttached() {
         Timber.d("onViewAttached() called")
 
@@ -31,10 +39,6 @@ class DefaultVendorPresenter @Inject constructor(
             adapter = vendorAdapter
             addItemDecoration(listDecor)
         }
-
-        vendorDisposable += view.searches
-                .toSearchableText()
-                .subscribe(::loadVendors)
 
         loadVendors()
 
@@ -57,7 +61,7 @@ class DefaultVendorPresenter @Inject constructor(
     private fun loadVendors(searchParam: String = "") {
         vendorDisposable += vendorLoader.vendors
                 .map { if (searchParam.isBlank()) it else it.filter { it.name.contains(searchParam, ignoreCase = true) } }
-                .map { it.sortedBy { it.name } }
+                .map { list -> list.sortedBy { it.name } }
                 .observeOnAndroidScheduler()
                 .subscribe(::showVendors, ::handleError)
     }

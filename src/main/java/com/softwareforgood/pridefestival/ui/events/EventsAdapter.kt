@@ -8,7 +8,7 @@ import com.softwareforgood.pridefestival.R
 import com.softwareforgood.pridefestival.data.FavoritesStorage
 import com.softwareforgood.pridefestival.data.model.Event
 import com.softwareforgood.pridefestival.ui.misc.BindableRecyclerAdapter
-import com.softwareforgood.pridefestival.ui.misc.EventClickHandler
+import com.softwareforgood.pridefestival.ui.misc.MapNavigator
 import com.softwareforgood.pridefestival.ui.misc.SimpleListHeaderView
 import com.softwareforgood.pridefestival.util.inflate
 import com.softwareforgood.pridefestival.util.toDateString
@@ -24,7 +24,7 @@ abstract class EventsAdapter : BindableRecyclerAdapter<Event>(),
 @EventsScope
 class DefaultEventsAdapter @Inject constructor(
     private val favoritesStorage: FavoritesStorage,
-    private val eventClickHandler: EventClickHandler
+    private val mapNavigator: MapNavigator
 ) : EventsAdapter() {
 
     private var headers = listOf<LocalDate>()
@@ -40,7 +40,7 @@ class DefaultEventsAdapter @Inject constructor(
         // invert the list and flatten so we have a list of all the headers that directly
         // correlate to the position of the events.
         // !! is safe since we filter out any possible nulls above
-        this.headers = grouped.entries.map { (key, value) -> value.map { key!! } }.flatten()
+        this.headers = grouped.entries.map { (key, value) -> value.map { requireNotNull(key) } }.flatten()
         this.events = grouped.values.flatten()
 
         notifyDataSetChanged()
@@ -55,7 +55,7 @@ class DefaultEventsAdapter @Inject constructor(
 
     override fun bindView(item: Event, view: View, position: Int) =
             with((view as EventItemView)) {
-                setOnClickListener { eventClickHandler.publishClick(item) }
+                setOnClickListener { mapNavigator.navigateToEvent(item) }
                 bind(item, favoritesStorage)
             }
 

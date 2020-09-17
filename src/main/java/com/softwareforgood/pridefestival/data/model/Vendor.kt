@@ -22,7 +22,22 @@ data class Vendor(
     val logo: ParseFile?,
     val isSponsor: Boolean,
     val sectionColor: VendorColor
-) : Mappable, HasParseId, HasGeoLocation
+) : Mappable, HasParseId, HasGeoLocation {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Vendor
+
+        if (objectId != other.objectId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return objectId.hashCode()
+    }
+}
 
 enum class VendorType(val parseText: String) {
     FOOD("food"),

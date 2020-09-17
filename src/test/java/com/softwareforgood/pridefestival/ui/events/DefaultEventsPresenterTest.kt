@@ -47,7 +47,6 @@ class DefaultEventsPresenterTest {
         MockitoAnnotations.initMocks(this)
         given { eventsView.recyclerView } willReturn { recyclerView }
         given { eventsView.tryAgainButton } willReturn { tryAgainButton }
-        given { eventsView.searches } willReturn { Observable.never() }
     }
 
     @Test fun `should set adapter and add decoration to recycler view`() {
@@ -113,7 +112,7 @@ class DefaultEventsPresenterTest {
         classUnderTest.attachView(eventsView)
 
         // then
-        classUnderTest.eventsDisposable.size() `should be greater or equal to` 2
+        classUnderTest.eventsDisposable.size() `should be greater or equal to` 1
 
         // and when
         classUnderTest.detachView()
@@ -161,16 +160,16 @@ class DefaultEventsPresenterTest {
 
     @Test fun `should load events with search query when one is input`() {
         given { eventsLoader.events } willReturn { Single.never() } willReturn { Single.just(events.toList()) }
-        given { eventsView.searches } willReturn {
-            // values based on names in events view.
-            Observable.just("ch", "CHY").map { SearchViewQueryTextEvent.create(mock(), it, false) }
-        }
 
         val classUnderTest = DefaultEventsPresenter(eventsLoader, eventsAdapter, listDecor)
         classUnderTest.attachView(eventsView)
+        classUnderTest.search(
+            Observable.just("ch", "CHY")
+                .map { SearchViewQueryTextEvent.create(mock(), it, false) }
+        )
+
         testScheduler.advanceTimeBy(5, TimeUnit.SECONDS)
 
-        then(eventsView).should().searches
         then(eventsLoader).should(times(2)).events
         then(eventsAdapter).should().loadEvents(events.toList())
         then(eventsView).should().showEventsList()

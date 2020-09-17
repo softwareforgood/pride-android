@@ -10,6 +10,7 @@ import javax.inject.Scope
 @MapScope
 @Subcomponent(modules = [MapModule::class])
 interface MapComponent {
+    fun inject(mapFragment: MapFragment)
     fun inject(mapView: DefaultMapView)
 }
 

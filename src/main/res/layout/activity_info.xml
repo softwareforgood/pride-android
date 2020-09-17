@@ -6,6 +6,8 @@
     android:orientation="vertical"
     >
 
+    <!-- TODO Fix this put back into view / fragment and remove activity -->
+
     <include
         layout="@layout/pride_toolbar"
         android:id="@+id/toolbar"

@@ -19,7 +19,4 @@ fun Observable<SearchViewQueryTextEvent>.toSearchableText(): Observable<String> 
         .map { it.toString() }
         .doOnNext { Timber.d("Search query of [%s]", it) }
 
-fun Single<SearchView>.toSearchEventStream(): Observable<SearchViewQueryTextEvent> =
-        flatMapObservable { it.eventStream }
-
 val SearchView.eventStream get() = RxSearchView.queryTextChangeEvents(this)

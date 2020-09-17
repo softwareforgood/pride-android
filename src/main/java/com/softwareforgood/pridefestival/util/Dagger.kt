@@ -1,12 +1,9 @@
 package com.softwareforgood.pridefestival.util
 
-import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import com.softwareforgood.pridefestival.PrideApp
 import com.softwareforgood.pridefestival.ui.ActivityComponent
-import io.reactivex.Single
 
 /**
  * Interface to express that an object is the owner of a component. You can get a reference to this
@@ -21,16 +18,10 @@ interface HasComponent<out T> {
     val component: T
 }
 
-fun <T> T.makeActivityComponent(
-    searchViewProvider: Single<SearchView>? = null
-): ActivityComponent where T : HasComponent<*>, T : AppCompatActivity = (application as PrideApp)
+fun <T> T.makeActivityComponent(): ActivityComponent where T : HasComponent<*>, T : AppCompatActivity = (application as PrideApp)
     .component
     .activityComponentBuilder()
     .activity(this)
-    .searchViewProvider(
-        searchViewProvider
-            ?: Single.error<SearchView>(Throwable("Search view not provided by the activity"))
-    )
     .build()
 
 @Suppress("UNCHECKED_CAST")

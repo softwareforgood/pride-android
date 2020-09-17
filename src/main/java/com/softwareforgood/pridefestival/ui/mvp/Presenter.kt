@@ -1,5 +1,8 @@
 package com.softwareforgood.pridefestival.ui.mvp
 
+import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
+import io.reactivex.Observable
+
 abstract class Presenter<VIEW> {
     private var _view: VIEW? = null
     val view: VIEW
@@ -20,4 +23,6 @@ abstract class Presenter<VIEW> {
         onViewDetached()
         this._view = null
     }
+
+    open fun search(searches: Observable<SearchViewQueryTextEvent>) { }
 }

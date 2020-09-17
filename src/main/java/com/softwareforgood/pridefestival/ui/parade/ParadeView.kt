@@ -3,38 +3,29 @@ package com.softwareforgood.pridefestival.ui.parade
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.andrewreitz.velcro.betterviewanimator.BetterViewAnimator
-import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
 import com.softwareforgood.pridefestival.databinding.ViewParadeBinding
 import com.softwareforgood.pridefestival.ui.ActivityComponent
 import com.softwareforgood.pridefestival.util.component
 import com.softwareforgood.pridefestival.util.horizontalDivider
-import com.softwareforgood.pridefestival.util.toSearchEventStream
-import io.reactivex.Observable
-import io.reactivex.Single
 import javax.inject.Inject
 
 interface ParadeView {
     val recyclerView: RecyclerView
     val tryAgainButton: View
-    val searches: Observable<SearchViewQueryTextEvent>
     fun showParadeList()
     fun showError()
     fun showSpinner()
 }
 
 class DefaultParadeView(context: Context, attrs: AttributeSet)
-    : BetterViewAnimator(context, attrs), ParadeView {
+    : ConstraintLayout(context, attrs), ParadeView {
 
     override val recyclerView: RecyclerView get() = binding.list
     override val tryAgainButton: View get() = binding.error
-    override val searches: Observable<SearchViewQueryTextEvent>
-        get() = searchViewProvider.toSearchEventStream()
 
     @Inject lateinit var presenter: ParadePresenter
-    @Inject lateinit var searchViewProvider: Single<SearchView>
 
     private lateinit var binding: ViewParadeBinding
 
@@ -59,14 +50,14 @@ class DefaultParadeView(context: Context, attrs: AttributeSet)
     }
 
     override fun showParadeList() {
-        displayedChildId = binding.list.id
+        binding.viewAnimator.displayedChildId = binding.list.id
     }
 
     override fun showError() {
-        displayedChildId = binding.error.id
+        binding.viewAnimator.displayedChildId = binding.error.id
     }
 
     override fun showSpinner() {
-        displayedChildId = binding.spinner.id
+        binding.viewAnimator.displayedChildId = binding.spinner.id
     }
 }

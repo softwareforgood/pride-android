@@ -2,10 +2,12 @@ package com.softwareforgood.pridefestival.ui.favorites
 
 import androidx.annotation.VisibleForTesting
 import ca.barrenechea.widget.recyclerview.decoration.StickyHeaderDecoration
+import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
 import com.softwareforgood.pridefestival.ui.mvp.Presenter
 import com.softwareforgood.pridefestival.util.observeOnAndroidScheduler
 import com.softwareforgood.pridefestival.util.plusAssign
 import com.softwareforgood.pridefestival.util.toSearchableText
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
@@ -19,6 +21,13 @@ class FavoritesPresenter @Inject constructor(
     @VisibleForTesting
     var favoritesDisposable = CompositeDisposable()
 
+    override fun search(searches: Observable<SearchViewQueryTextEvent>) {
+        favoritesDisposable += searches
+            .toSearchableText()
+            .observeOnAndroidScheduler()
+            .subscribe(::loadFavorites)
+    }
+
     override fun onViewAttached() {
         Timber.d("onViewAttached() called")
 
@@ -26,11 +35,6 @@ class FavoritesPresenter @Inject constructor(
             adapter = favoritesAdapter
             addItemDecoration(listDecor)
         }
-
-        favoritesDisposable += view.searches
-                .toSearchableText()
-                .observeOnAndroidScheduler()
-                .subscribe(::loadFavorites)
 
         loadFavorites()
 

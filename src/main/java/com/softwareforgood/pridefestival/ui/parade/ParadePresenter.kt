@@ -1,12 +1,14 @@
 package com.softwareforgood.pridefestival.ui.parade
 
 import androidx.annotation.VisibleForTesting
+import com.jakewharton.rxbinding2.support.v7.widget.SearchViewQueryTextEvent
 import com.softwareforgood.pridefestival.data.ParadeLoader
 import com.softwareforgood.pridefestival.data.model.ParadeEvent
 import com.softwareforgood.pridefestival.ui.mvp.Presenter
 import com.softwareforgood.pridefestival.util.observeOnAndroidScheduler
 import com.softwareforgood.pridefestival.util.plusAssign
 import com.softwareforgood.pridefestival.util.toSearchableText
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,14 +24,16 @@ class DefaultParadePresenter @Inject constructor(
     @VisibleForTesting
     var eventsDisposable = CompositeDisposable()
 
+    override fun search(searches: Observable<SearchViewQueryTextEvent>) {
+        eventsDisposable += searches
+            .toSearchableText()
+            .subscribe(::loadParades)
+    }
+
     override fun onViewAttached() {
         Timber.d("onViewAttached() called")
 
         view.recyclerView.adapter = paradeAdapter
-
-        eventsDisposable += view.searches
-                .toSearchableText()
-                .subscribe(::loadParades)
 
         loadParades()
 
@@ -46,8 +50,8 @@ class DefaultParadePresenter @Inject constructor(
 
     private fun loadParades(searchParam: String = "") {
         eventsDisposable += paradeLoader.parades
-                .map { if (searchParam.isBlank()) it else it.filter { it.name.contains(searchParam, ignoreCase = true) } }
-                .map { it.sortedBy { it.lineupNumber } }
+                .map { if (searchParam.isBlank()) it else it.filter { event -> event.name.contains(searchParam, ignoreCase = true) } }
+                .map { list -> list.sortedBy { it.lineupNumber } }
                 .observeOnAndroidScheduler()
                 .subscribe(::showParadeEvents, ::handleError)
     }
